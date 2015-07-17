@@ -25,6 +25,10 @@ using UnityEngine;
 /// 4.点击 Sprite Editor 按钮打开编辑界面对图集进行分割和对小图命名, 完成后点击 Apply 按钮应用分割;
 /// 5.选中图集, 在菜单栏点击 Hammerc/2D/SpriteSheetSplit 即可在图集同一目录下生成同名的文件夹, 文件夹中会按命名导出所有的小图.
 /// 
+/// 报错解决: 
+/// Unsupported texture format - needs to be ARGB32, RGBA32, BGRA32, RGB24, Alpha8, RGBAFloat, RGBAHalf or one of supported compressed formats.
+/// 该错误是由于图片格式Unity不支持导致的, 我们可以选中图片, 在 Default 下的 Format 中选择报错提示的支持的格式, 然后点击 Apply 按钮即可.
+/// 
 /// </summary>
 public class SpriteSheetSlicer
 {

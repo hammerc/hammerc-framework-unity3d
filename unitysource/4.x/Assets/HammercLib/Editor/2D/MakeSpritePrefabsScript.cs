@@ -71,7 +71,7 @@ public class MakeSpritePrefabsScript
             string allPath = file.FullName;
             string assetPath = allPath.Substring(allPath.IndexOf("Assets"));
             //加载贴图
-            Sprite sprite = AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+            Sprite sprite = AssetDatabase.LoadAssetAtPath(assetPath, typeof(Sprite)) as Sprite;
             //创建绑定了贴图的 GameObject 对象
             GameObject go = new GameObject(sprite.name);
             go.AddComponent<SpriteRenderer>().sprite = sprite;
