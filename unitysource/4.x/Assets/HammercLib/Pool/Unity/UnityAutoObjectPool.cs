@@ -23,6 +23,12 @@ namespace HammercLib.Pool
         public GameObject source;
 
         /// <summary>
+        /// 指定该对象池创建的对象是否切换场景时不被销毁.
+        /// 如果不销毁则需要手动调用 Clear 方法进行效果.
+        /// </summary>
+        public bool dontDestroyOnLoad = false;
+
+        /// <summary>
         /// 对象池中最大允许的空闲对象.
         /// </summary>
         public int maxIdleCount = 10;
@@ -31,7 +37,7 @@ namespace HammercLib.Pool
 
         void Awake()
         {
-            _pool = new AutoObjectPool<GameObject>(new GameObjectFactory<T>(source), maxIdleCount);
+            _pool = new AutoObjectPool<GameObject>(new GameObjectFactory<T>(source, dontDestroyOnLoad, this.gameObject), maxIdleCount);
         }
 
         public int GetActiveCount()

@@ -15,6 +15,7 @@ public class PoolScript : MonoBehaviour
         MyAutoObject obj = _pool.Take() as MyAutoObject;
 
         GameObject go = obj.GetObject();
+        go.transform.SetParent(null);
         go.transform.position = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f));
         go.transform.eulerAngles = new Vector3(Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f), Random.Range(0.0f, 360.0f));
     }

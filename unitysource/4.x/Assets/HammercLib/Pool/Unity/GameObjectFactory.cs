@@ -19,19 +19,30 @@ namespace HammercLib.Pool
     public class GameObjectFactory<T> : IObjectFactory<IAutoObject<GameObject>> where T : Component, IAutoObject<GameObject>
     {
         private GameObject _gameObject;
+        private bool _dontDestroyOnLoad;
+        private GameObject _poolGameObject;
 
         /// <summary>
         /// 构造函数.
         /// </summary>
         /// <param name="gameObject">创建的对象类型.</param>
-        public GameObjectFactory(GameObject gameObject)
+        /// <param name="dontDestroyOnLoad">指定该对象池创建的对象是否切换场景时不被销毁.</param>
+        /// <param name="poolGameObject">对象池脚本的游戏对象.</param>
+        public GameObjectFactory(GameObject gameObject, bool dontDestroyOnLoad, GameObject poolGameObject)
         {
             _gameObject = gameObject;
+            _dontDestroyOnLoad = dontDestroyOnLoad;
+            _poolGameObject = poolGameObject;
         }
 
         public IAutoObject<GameObject> CreateObject(bool doActive)
         {
             GameObject go = GameObject.Instantiate(_gameObject) as GameObject;
+            //对象切换场景时不被销毁
+            if(_dontDestroyOnLoad)
+            {
+                GameObject.DontDestroyOnLoad(go);
+            }
             //取出预先绑定好的继承自 UnityAutoObject 的脚本
             IAutoObject<GameObject> autoObject = go.GetComponent<T>();
             if(autoObject == null)
@@ -56,6 +67,9 @@ namespace HammercLib.Pool
 
         public void UnactivateObject(IAutoObject<GameObject> obj)
         {
+            //将回收的对象作为当前对象的子对象, 方便折叠进行查看
+            obj.GetObject().transform.SetParent(_poolGameObject.transform);
+            //设置为不活跃
             obj.GetObject().SetActive(false);
         }
 
