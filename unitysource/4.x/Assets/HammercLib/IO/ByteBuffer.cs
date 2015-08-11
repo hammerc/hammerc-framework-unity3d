@@ -63,6 +63,22 @@ namespace HammercLib.IO
             get { return _endian; }
         }
 
+        /// <summary>
+        /// 获取读取索引.
+        /// </summary>
+        public int readIndex
+        {
+            get { return _readIndex; }
+        }
+
+        /// <summary>
+        /// 获取写入索引.
+        /// </summary>
+        public int writeIndex
+        {
+            get { return _writeIndex; }
+        }
+
         private byte[] Flip(byte[] bytes)
         {
             if((BitConverter.IsLittleEndian && _endian == Endian.BigEndian) || (!BitConverter.IsLittleEndian && _endian == Endian.LittleEndian))
@@ -114,7 +130,18 @@ namespace HammercLib.IO
         /// 读取一个字节.
         /// </summary>
         /// <returns>字节.</returns>
-        public byte ReadByte()
+        public sbyte ReadByte()
+        {
+            byte result = _bytes[_readIndex];
+            _readIndex++;
+            return Convert.ToSByte(result);
+        }
+
+        /// <summary>
+        /// 读取一个无符号字节.
+        /// </summary>
+        /// <returns>无符号字节.</returns>
+        public byte ReadUnsignedByte()
         {
             byte result = _bytes[_readIndex];
             _readIndex++;
@@ -213,7 +240,7 @@ namespace HammercLib.IO
             int size = offset + length;
             for(int i = offset; i < size; i++)
             {
-                bytes[i] = this.ReadByte();
+                bytes[i] = this.ReadUnsignedByte();
             }
         }
 
@@ -221,7 +248,20 @@ namespace HammercLib.IO
         /// 写入一个字节.
         /// </summary>
         /// <param name="value">字节.</param>
-        public void WriteByte(byte value)
+        public void WriteByte(sbyte value)
+        {
+            int afterLen = _writeIndex + 1;
+            int len = _bytes.Length;
+            FixSizeAndReset(len, afterLen);
+            _bytes[_writeIndex] = Convert.ToByte(value);
+            _writeIndex = afterLen;
+        }
+
+        /// <summary>
+        /// 写入一个无符号字节.
+        /// </summary>
+        /// <param name="value">无符号字节.</param>
+        public void WriteUnsignedByte(byte value)
         {
             int afterLen = _writeIndex + 1;
             int len = _bytes.Length;
