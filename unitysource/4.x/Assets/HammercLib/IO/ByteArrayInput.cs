@@ -42,7 +42,14 @@ namespace HammercLib.IO
 
         public Endian endian
         {
+            set { _byteBuffer.endian = value; }
             get { return _byteBuffer.endian; }
+        }
+
+        public int position
+        {
+            set { _byteBuffer.readIndex = value; }
+            get { return _byteBuffer.readIndex; }
         }
 
         public int bytesAvailable

@@ -40,6 +40,7 @@ namespace HammercLib.IO
 
         public Endian endian
         {
+            set { _endian = value; }
             get { return _endian; }
         }
 

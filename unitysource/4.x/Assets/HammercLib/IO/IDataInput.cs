@@ -15,9 +15,14 @@ namespace HammercLib.IO
     public interface IDataInput
     {
         /// <summary>
-        /// 获取字节序.
+        /// 设置或获取字节序.
         /// </summary>
-        Endian endian { get; }
+        Endian endian { set; get; }
+
+        /// <summary>
+        /// 设置或获取字节序.
+        /// </summary>
+        int position { set; get; }
 
         /// <summary>
         /// 获取剩余可用的字节.

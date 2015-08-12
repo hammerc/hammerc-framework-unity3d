@@ -56,26 +56,29 @@ namespace HammercLib.IO
         }
 
         /// <summary>
-        /// 获取字节序.
+        /// 设置或获取字节序.
         /// </summary>
         public Endian endian
         {
+            set { _endian = value; }
             get { return _endian; }
         }
 
         /// <summary>
-        /// 获取读取索引.
+        /// 设置或获取读取索引.
         /// </summary>
         public int readIndex
         {
+            set { _readIndex = value; }
             get { return _readIndex; }
         }
 
         /// <summary>
-        /// 获取写入索引.
+        /// 设置或获取写入索引.
         /// </summary>
         public int writeIndex
         {
+            set { _writeIndex = value; }
             get { return _writeIndex; }
         }
 
@@ -126,6 +129,18 @@ namespace HammercLib.IO
             return result;
         }
 
+        private sbyte ByteToSByte(byte value)
+        {
+            short result = (short)(value - 128);
+            return (sbyte)result;
+        }
+
+        private byte SByteToByte(sbyte value)
+        {
+            short result = (short)(value + 128);
+            return (byte)result;
+        }
+
         /// <summary>
         /// 读取一个字节.
         /// </summary>
@@ -134,7 +149,7 @@ namespace HammercLib.IO
         {
             byte result = _bytes[_readIndex];
             _readIndex++;
-            return Convert.ToSByte(result);
+            return ByteToSByte(result);
         }
 
         /// <summary>
@@ -253,7 +268,7 @@ namespace HammercLib.IO
             int afterLen = _writeIndex + 1;
             int len = _bytes.Length;
             FixSizeAndReset(len, afterLen);
-            _bytes[_writeIndex] = Convert.ToByte(value);
+            _bytes[_writeIndex] = SByteToByte(value);
             _writeIndex = afterLen;
         }
 

@@ -15,9 +15,9 @@ namespace HammercLib.IO
     public interface IDataOutput
     {
         /// <summary>
-        /// 获取字节序.
+        /// 设置或获取字节序.
         /// </summary>
-        Endian endian { get; }
+        Endian endian { set; get; }
 
         /// <summary>
         /// 写入布尔值.

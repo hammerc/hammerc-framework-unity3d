@@ -30,6 +30,7 @@ namespace HammercLib.Struct
 
         public void WriteExternal(IDataOutput output)
         {
+            output.endian = STRUCT_ENDIAN;
             this.WriteToBytes(output);
         }
 
@@ -41,6 +42,7 @@ namespace HammercLib.Struct
 
         public void ReadExternal(IDataInput input)
         {
+            input.endian = STRUCT_ENDIAN;
             this.ReadFromBytes(input);
         }
 
