@@ -68,7 +68,17 @@ public class SpriteSheetSlicer
             //编码为 png 文件格式
             var pngData = texture2D.EncodeToPNG();
             //输出图片
-            File.WriteAllBytes(rootPath + "/" + selectionTexture2D.name + "/" + metaData.name + ".png", pngData);
+            string spritePath = rootPath + "/" + selectionTexture2D.name + "/" + metaData.name + ".png";
+            File.WriteAllBytes(spritePath, pngData);
+
+            //必须对资源刷新一下, 否则刚创建的文件导入会失败
+            AssetDatabase.Refresh();
+
+            //设置输出图片的一些属性
+            TextureImporter spriteTextureImporter = AssetImporter.GetAtPath(spritePath) as TextureImporter;
+            spriteTextureImporter.textureType = TextureImporterType.Sprite;
+            spriteTextureImporter.mipmapEnabled = false;
+            spriteTextureImporter.spritePackingTag = selectionTexture2D.name;
         }
 
         EditorUtility.ClearProgressBar();

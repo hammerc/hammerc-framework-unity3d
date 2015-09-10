@@ -131,14 +131,20 @@ namespace HammercLib.IO
 
         private sbyte ByteToSByte(byte value)
         {
-            short result = (short)(value - 128);
-            return (sbyte)result;
+            if(value < 128)
+            {
+                return (sbyte)value;
+            }
+            return (sbyte)(value - 256);
         }
 
         private byte SByteToByte(sbyte value)
         {
-            short result = (short)(value + 128);
-            return (byte)result;
+            if(value >= 0)
+            {
+                return (byte)value;
+            }
+            return (byte)(value + 256);
         }
 
         /// <summary>
