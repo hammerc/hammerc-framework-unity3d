@@ -67,8 +67,15 @@ namespace HammercLib.Pool
 
         public void UnactivateObject(IAutoObject<GameObject> obj)
         {
-            //将回收的对象作为当前对象的子对象, 方便折叠进行查看
-            obj.GetObject().transform.SetParent(_poolGameObject.transform);
+            //某些情况下比如销毁场景时, 可能走到这一步时对象池已经被销毁, 这里将报错去除
+            try
+            {
+                //将回收的对象作为当前对象的子对象, 方便折叠进行查看
+                obj.GetObject().transform.SetParent(_poolGameObject.transform);
+            }
+            catch(Exception exception)
+            {
+            }
             //设置为不活跃
             obj.GetObject().SetActive(false);
         }

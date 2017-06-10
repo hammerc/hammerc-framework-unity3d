@@ -23,6 +23,11 @@ namespace HammercLib.Pool
         public GameObject source;
 
         /// <summary>
+        /// 是否自动初始化对象池.
+        /// </summary>
+        public bool autoInit = true;
+
+        /// <summary>
         /// 指定该对象池创建的对象是否切换场景时不被销毁.
         /// 如果不销毁则需要手动调用 Clear 方法进行效果.
         /// </summary>
@@ -37,7 +42,21 @@ namespace HammercLib.Pool
 
         void Awake()
         {
-            _pool = new AutoObjectPool<GameObject>(new GameObjectFactory<T>(source, dontDestroyOnLoad, this.gameObject), maxIdleCount);
+            if(_pool == null && autoInit)
+            {
+                _pool = new AutoObjectPool<GameObject>(new GameObjectFactory<T>(source, dontDestroyOnLoad, this.gameObject), maxIdleCount);
+            }
+        }
+
+        /// <summary>
+        /// 初始化对象池, 在取消自动初始化时需要调用该方法进行初始化.
+        /// </summary>
+        public void Init()
+        {
+            if(_pool == null)
+            {
+                _pool = new AutoObjectPool<GameObject>(new GameObjectFactory<T>(source, dontDestroyOnLoad, this.gameObject), maxIdleCount);
+            }
         }
 
         public int GetActiveCount()
